@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./AddBookForm.css";
 
 function AddBookForm() {
@@ -11,6 +11,22 @@ function AddBookForm() {
     cover_image: "",
     is_available: true,
   });
+  const initialFormData = {
+    title: "",
+    author: "",
+    description: "",
+    published_year: "",
+    isbn: "",
+    cover_image: "",
+    is_available: true,
+  };
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCount((count) => count + 1);
+    }, 1000);
+  }, [formData.title] );
 
   // Handle input change
   function handleChange(e) {
@@ -41,9 +57,12 @@ function AddBookForm() {
 
       const result = await response.json();
       alert("Book added successfully!");
+      window.location.href = "/"
       console.log(result);
+    useState(initialFormData);
     } catch (error) {
       console.error("Error:", error);
+    // useState(initialFormData);
       alert("Error while adding book!");
     }
   }
@@ -51,6 +70,7 @@ function AddBookForm() {
   return (
     <form className="book-form" onSubmit={handleSubmit}>
       <h2>Add a New Book</h2>
+      <div className="form-group"><label> Currrent book count {count}</label></div>
 
       <div className="form-group">
         <label>Title</label>
